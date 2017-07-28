@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.3'
+    defaultConfig {
+        applicationId "can.dennis.weatherforecast"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField('String', 'VERSION_TAG', '""')
+
+        // <-------- 创建KeyStore签名变量 Begin -------->
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+        // <-------- 创建KeyStore签名变量 End -------->
+
+        buildConfigField('String', 'OPEN_WEATHER_ID', '"' + keystoreProperties['openWeatherId'] + '"')
+        buildConfigField('String', 'OPEN_WEATHER_APP_ID', '"' + keystoreProperties['openWeatherAppId'] + '"')
+        buildConfigField('String', 'GUO_LIN_APP_KEY', '"' + keystoreProperties['guoLinAppKey'] + '"')
+    }
+    buildTypes {
+        release {
+            // Zipalign优化
+            zipAlignEnabled true
+            // 混淆
+            minifyEnabled true
+            // 移除无用的resource文件，依赖minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            def fileName
+            def time = getTime()
+            def versionName = defaultConfig.versionName
+            def versionCode = defaultConfig.versionCode
+            applicationVariants.all { variant ->
+                fileName = "${time}_天气预报_${versionName}_${versionCode}_"
+                def flavorName = variant.flavorName
+                if (flavorName == "v_debug") {
+                    fileName += "debug"
+                } else {
+                    fileName += "release"
+                }
+                def fullFileName
+                variant.outputs.each { output ->
+                    // def fileName = "apk_${variant.productFlavors[0].name}-${defaultConfig.versionCode}-${defaultConfig.versionName}-${releaseTime() }.apk"
+                    fullFileName = fileName + ".apk"
+                    output.outputFile = new File(output.outputFile.parent, fullFileName)
+                }
+            }
+        }
+    }
+    productFlavors {
+        v_debug {
+            buildConfigField('String', 'VERSION_TAG', '"Debug"')
+        }
+        v_release {
+            buildConfigField('String', 'VERSION_TAG', '"Release"')
+        }
+    }
+}
+
+def getTime() { return new Date().format("yyyy.MM.dd", TimeZone.getTimeZone("UTC")) }
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    // OKHttp
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    // gson
+    compile 'com.google.code.gson:gson:2.8.0'
+    // glide图片下载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    // 图表
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    // LitePal数据库框架
+    compile 'org.litepal.android:core:1.5.1'
+    // RxJava
+    compile 'io.reactivex.rxjava2:rxjava:2.1.2'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+}

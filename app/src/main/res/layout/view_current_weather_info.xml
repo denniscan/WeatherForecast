@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:paddingBottom="10dp"
+	android:layout_height="wrap_content"
+	tools:layout_editor_absoluteX="0dp"
+
+	tools:layout_editor_absoluteY="0dp">
+
+	<android.support.constraint.Guideline
+		android:id="@+id/vline1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="80dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/vlCenter"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="192dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/vl2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="265dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="25dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="50dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl3"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="75dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl4"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="100dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl5"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="125dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl6"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="150dp" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/hl7"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_begin="175dp" />
+
+	<TextView
+		android:id="@+id/cityTitleTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/city_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl1"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/cityTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl1"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="广州" />
+
+	<TextView
+		android:id="@+id/updateTimeTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="0dp"
+		android:text="@string/updateTime_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl1"
+		app:layout_constraintLeft_toLeftOf="@+id/vlCenter"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/updateTimeTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl1"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		tools:text="2017.06.29" />
+
+	<TextView
+		android:id="@+id/currentTemperatureTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/currentTemperature_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl2"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/currentTemperatureTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl2"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="34"
+		android:layout_marginBottom="-1dp" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="0dp"
+		android:text="@string/centigrade"
+		app:layout_constraintBottom_toTopOf="@+id/hl2"
+		app:layout_constraintLeft_toRightOf="@+id/currentTemperatureTV" />
+
+	<TextView
+		android:id="@+id/weatherTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="0dp"
+		android:text="@string/weather_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl2"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/weatherDescriptionTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl2"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		app:layout_constraintLeft_toRightOf="@+id/weatherTitle"
+		tools:text="多云" />
+
+	<TextView
+		android:id="@+id/maxTemperatureTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/maxTemperature_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/maxTemperatureTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="11" />
+
+	<TextView
+		android:id="@+id/textView22"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="0dp"
+		android:text="@string/centigrade"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintLeft_toRightOf="@+id/maxTemperatureTV" />
+
+	<TextView
+		android:id="@+id/minTemperatureTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/minTemperature_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/minTemperatureTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		tools:text="22" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="0dp"
+		android:text="@string/centigrade"
+		app:layout_constraintBottom_toTopOf="@+id/hl3"
+		app:layout_constraintLeft_toRightOf="@+id/minTemperatureTV" />
+
+	<TextView
+		android:id="@+id/pressureTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="0dp"
+		android:text="@string/pressure_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/pressureTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="1009" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="0dp"
+		android:text="hPa"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintLeft_toRightOf="@+id/pressureTV" />
+
+	<TextView
+		android:id="@+id/humidityTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="0dp"
+		android:text="@string/humidity_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/humidityTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		app:layout_constraintLeft_toRightOf="@+id/humidityTitle"
+		tools:text="52" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:text="@string/percent"
+		app:layout_constraintBottom_toTopOf="@+id/hl4"
+		app:layout_constraintLeft_toRightOf="@+id/humidityTV" />
+
+	<TextView
+		android:id="@+id/visibilityTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/visibility_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl5"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/visibilityTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl5"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="1000" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="0dp"
+		android:text="@string/meter"
+		app:layout_constraintBottom_toTopOf="@+id/hl5"
+		app:layout_constraintLeft_toRightOf="@+id/visibilityTV" />
+
+	<TextView
+		android:id="@+id/windSpeedTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/windSpeed_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl6"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/windSpeedTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl6"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="29" />
+
+	<TextView
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="0dp"
+		android:text="@string/meterPerSecond"
+		app:layout_constraintBottom_toTopOf="@+id/hl6"
+		app:layout_constraintLeft_toRightOf="@+id/windSpeedTV" />
+
+	<TextView
+		android:id="@+id/windDirectionTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/windDirection_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl6"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/windDirectionTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl6"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		tools:text="东南西北" />
+
+	<TextView
+		android:id="@+id/sunRiseTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/sunRise_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl7"
+		app:layout_constraintRight_toLeftOf="@+id/vline1" />
+
+	<TextView
+		android:id="@+id/sunRiseTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl7"
+		app:layout_constraintLeft_toLeftOf="@+id/vline1"
+		tools:text="6:00:00" />
+
+	<TextView
+		android:id="@+id/sunSetTitle"
+		style="@style/TableTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginRight="0dp"
+		android:text="@string/sunSet_colon"
+		app:layout_constraintBottom_toTopOf="@+id/hl7"
+		app:layout_constraintRight_toLeftOf="@+id/vl2" />
+
+	<TextView
+		android:id="@+id/sunSetTV"
+		style="@style/TableTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintBottom_toTopOf="@+id/hl7"
+		app:layout_constraintLeft_toLeftOf="@+id/vl2"
+		tools:text="16:00:00" />
+</android.support.constraint.ConstraintLayout>

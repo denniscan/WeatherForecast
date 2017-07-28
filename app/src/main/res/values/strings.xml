@@ -1,0 +1,23 @@
+<resources>
+	<string name="app_name">Weather Forecast</string>
+	<string name="centigrade">℃</string>
+	<string name="city_colon">城市：</string>
+	<string name="updateTime_colon">更新时间：</string>
+	<string name="currentTemperature_colon">当前气温：</string>
+	<string name="weather_colon">天气：</string>
+	<string name="pressure_colon">气压：</string>
+	<string name="humidity_colon">湿度：</string>
+	<string name="percent">%</string>
+	<string name="maxTemperature_colon">最高：</string>
+	<string name="minTemperature_colon">最低：</string>
+	<string name="visibility_colon">能见度：</string>
+	<string name="meter">米</string>
+	<string name="windSpeed_colon">风速：</string>
+	<string name="windDirection_colon">风向：</string>
+	<string name="meterPerSecond">米/秒</string>
+	<string name="sunRise_colon">日出：</string>
+	<string name="sunSet_colon">日落：</string>
+	<string name="loadNetworkFailure">网络连接错误，请稍后重试</string>
+	<string name="networkCommunicationError">网络通讯错误</string>
+	<string name="networkNotAvailable_pleaseCheckNetworkStatus">网络不可用，请检查网络状态</string>
+</resources>
