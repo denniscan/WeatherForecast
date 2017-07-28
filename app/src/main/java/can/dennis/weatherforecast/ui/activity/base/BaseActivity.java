@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import can.dennis.weatherforecast.utils.networkhelper.NetworkHelper;
 import can.dennis.weatherforecast.utils.pagemanager.PageManager;
 
 /**
@@ -14,7 +13,6 @@ import can.dennis.weatherforecast.utils.pagemanager.PageManager;
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 	public BaseActivity activity;
-	protected NetworkHelper networkHelper;
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,14 +34,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
 	@Override protected void onDestroy() {
 		super.onDestroy();
-		networkHelper.clear();
 		PageManager.getInstance().removeActivity(this);
 	}
 
-	private void init() {
-		activity = this;
-		networkHelper = new NetworkHelper();
-	}
+	private void init() { activity = this; }
 
 	protected void beforeStart() {}
 

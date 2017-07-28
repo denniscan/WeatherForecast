@@ -16,7 +16,6 @@ import okhttp3.OkHttpClient;
 /**
  * Created by Dennis Can on 2017-06-29.
  */
-
 public class NetworkUtils {
 	public static final int NETWORK_TIME_OUT = 30;
 	private static NetworkUtils instance = new NetworkUtils();

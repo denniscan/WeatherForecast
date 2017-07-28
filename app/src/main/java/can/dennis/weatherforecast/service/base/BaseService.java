@@ -11,7 +11,7 @@ public abstract class BaseService extends Service {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		networkHelper = new NetworkHelper();
+		networkHelper = new NetworkHelper(getNetworkHelperFeedback());
 	}
 
 	@Override public void onDestroy() {
@@ -24,4 +24,6 @@ public abstract class BaseService extends Service {
 	protected BaseActivity getActivity(Class<? extends BaseActivity> clazz) {
 		return PageManager.getInstance().getActivity(clazz);
 	}
+
+	protected abstract NetworkHelper.IOnNetworkStatusErrorFeedback getNetworkHelperFeedback();
 }

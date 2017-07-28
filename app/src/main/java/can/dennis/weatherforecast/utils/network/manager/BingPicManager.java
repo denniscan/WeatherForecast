@@ -10,9 +10,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.io.InterruptedIOException;
+
 import can.dennis.weatherforecast.exceptions.network.ResponseCodeException;
 import can.dennis.weatherforecast.exceptions.network.TextException;
-import can.dennis.weatherforecast.utils.A;
 import can.dennis.weatherforecast.utils.constants.Constants;
 import can.dennis.weatherforecast.utils.network.manager.base.BaseNetworkManager;
 import io.reactivex.Observable;
@@ -33,30 +34,29 @@ public class BingPicManager extends BaseNetworkManager {
 
 	public Function<Boolean, ObservableSource<String>> getBingPicUrl() {
 		return new Function<Boolean, ObservableSource<String>>() {
-			@Override public ObservableSource<String> apply(@NonNull final Boolean aBoolean) throws Exception {
+			@Override public ObservableSource<String> apply(@NonNull Boolean aBoolean) throws Exception {
 				return Observable.create(new ObservableOnSubscribe<String>() {
 					@Override public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
-						A.log("<-------- Get bing pic url -------->");
-						if (!aBoolean) {
-							A.log("接收到false, return");
-							e.onComplete();
-							return;
-						}
-						Response response = okClient
-								.newCall(new Request.Builder().get().url(Constants.URL_BING_PIC).build())
-								.execute();
-						int responseCode = response.code();
-						if (responseCode == 200) {
-							String string = response.body().string();
-							if (!TextUtils.isEmpty(string)) {
-								A.log("网络获取到BingPic地址: " + string);
-								e.onNext(string);
-								e.onComplete();
+						try {
+							Response response = okClient
+									.newCall(new Request.Builder().get().url(Constants.URL_BING_PIC).build())
+									.execute();
+							int responseCode = response.code();
+							if (responseCode == 200) {
+								String string = response.body().string();
+								if (!TextUtils.isEmpty(string)) {
+									e.onNext(string);
+									e.onComplete();
+								} else {
+									e.onError(new TextException("Response bing address is empty"));
+								}
 							} else {
-								e.onError(new TextException("Response bing address is empty"));
+								e.onError(new ResponseCodeException(responseCode));
 							}
-						} else {
-							e.onError(new ResponseCodeException(responseCode));
+						} catch (InterruptedIOException e1) {
+							e1.printStackTrace();
+							if (!e.isDisposed())
+								e.onError(e1);
 						}
 					}
 				});
@@ -71,14 +71,12 @@ public class BingPicManager extends BaseNetworkManager {
 					@Override public void subscribe(@NonNull final ObservableEmitter<Bitmap> e) throws Exception {
 						activity.runOnUiThread(new Runnable() {
 							@Override public void run() {
-								A.log("<-------- Load bing pic -------->");
 								DrawableTypeRequest<String> request = Glide.with(activity).load(picAddress);
 								request.skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
 								request.asBitmap().into(new SimpleTarget<Bitmap>() {
 									@Override public void onResourceReady(Bitmap resource,
 											GlideAnimation<? super Bitmap> glideAnimation) {
 										if (resource != null) {
-											A.log("获取BingPic成功");
 											e.onNext(resource);
 											e.onComplete();
 										} else {

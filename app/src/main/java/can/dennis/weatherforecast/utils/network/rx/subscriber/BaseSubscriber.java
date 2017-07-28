@@ -1,5 +1,7 @@
 package can.dennis.weatherforecast.utils.network.rx.subscriber;
 
+import java.io.InterruptedIOException;
+
 import can.dennis.weatherforecast.exceptions.network.ResponseCodeException;
 import can.dennis.weatherforecast.utils.A;
 import can.dennis.weatherforecast.utils.network.bean.datapackage.NetworkResponseDataPackage;
@@ -21,12 +23,18 @@ public abstract class BaseSubscriber<T> implements ObservableOnSubscribe<Network
 
 	@Override public void subscribe(@NonNull ObservableEmitter<NetworkResponseDataPackage<T>> e) throws Exception {
 		A.log("GET url: " + url);
-		Response response = okClient.newCall(new Request.Builder().get().url(url).build()).execute();
-		int responseCode = response.code();
-		if (responseCode == 200) {
-			onResponse(e, responseCode, response);
-		} else {
-			e.onError(new ResponseCodeException(responseCode));
+		try {
+			Response response = okClient.newCall(new Request.Builder().get().url(url).build()).execute();
+			int responseCode = response.code();
+			if (responseCode == 200) {
+				onResponse(e, responseCode, response);
+			} else {
+				e.onError(new ResponseCodeException(responseCode));
+			}
+		} catch (InterruptedIOException e1) {
+			e1.printStackTrace();
+			if (!e.isDisposed())
+				e.onError(e1);
 		}
 	}
 

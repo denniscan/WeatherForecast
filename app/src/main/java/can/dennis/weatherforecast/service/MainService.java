@@ -17,6 +17,7 @@ import can.dennis.weatherforecast.utils.app.MyApp;
 import can.dennis.weatherforecast.utils.constants.Constants;
 import can.dennis.weatherforecast.utils.network.NetworkUtils;
 import can.dennis.weatherforecast.utils.network.bean.datapackage.NetworkResponseDataPackage;
+import can.dennis.weatherforecast.utils.networkhelper.NetworkHelper;
 import can.dennis.weatherforecast.utils.preference.PreferenceUtils;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
@@ -27,6 +28,10 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class MainService extends BaseService {
 	@Nullable @Override public IBinder onBind(Intent intent) { return binder; }
+
+	@Override protected NetworkHelper.IOnNetworkStatusErrorFeedback getNetworkHelperFeedback() {
+		return networkHelperFeedback;
+	}
 
 	private boolean withinAutoRefreshInterval() {
 		return System.currentTimeMillis() - PreferenceUtils.getInstance().getLastCheckTime() <
@@ -59,12 +64,15 @@ public class MainService extends BaseService {
 
 					@Override public void onNext(@NonNull NetworkResponseDataPackage<?> dataPackage) {
 						if (dataPackage.bean instanceof OpenWeatherCurrentJsonBean) {
+							A.log("Load current data");
 							preferenceUtils.markLastOpenWeatherCurrentJson(dataPackage.json);
 							showCurrent(((OpenWeatherCurrentJsonBean) dataPackage.bean));
 						} else if (dataPackage.bean instanceof OpenWeatherForecastJsonBean) {
+							A.log("Load forecast data");
 							preferenceUtils.markLastOpenWeatherForecastJson(dataPackage.json);
 							showForecast((OpenWeatherForecastJsonBean) dataPackage.bean);
 						} else {
+							A.log("onNext error data");
 							onNetworkFailure();
 						}
 					}
@@ -109,15 +117,36 @@ public class MainService extends BaseService {
 	private IServiceBinder binder = new ServiceBinder();
 
 	private class ServiceBinder extends Binder implements IServiceBinder {
-		@Override public void refresh(boolean manual) {
-			if (!manual && withinAutoRefreshInterval())
-				loadLocalData();
-			else
+		@Override public void init() {
+			A.log("Call from Activity: init()");
+			loadLocalData();
+			if (!withinAutoRefreshInterval())
 				loadNetwork();
 		}
+
+		@Override public void refresh() {
+			A.log("Call from Activity: refresh()");
+			loadNetwork(); }
+
+		@Override public void cancelNetwork() {
+			A.log("Call from Activity: cancelNetwork");
+			networkHelper.clear(); }
 	}
 
 	public interface IServiceBinder extends IBinder {
-		void refresh(boolean manual);
+		void init();
+
+		void refresh();
+
+		void cancelNetwork();
 	}
+
+	private final NetworkHelper.IOnNetworkStatusErrorFeedback networkHelperFeedback =
+			new NetworkHelper.IOnNetworkStatusErrorFeedback() {
+				@Override public void onNetworkStatusError() {
+					MainActivity activity = getMainActivity();
+					if (activity != null)
+						activity.setRefreshing(false);
+				}
+			};
 }

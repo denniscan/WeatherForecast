@@ -29,4 +29,10 @@ public class PageManager {
 				return activity;
 		return null;
 	}
+
+	public void finishAllActivities() {
+		for (BaseActivity activity : activityStack)
+			if (activity != null)
+				activity.finish();
+	}
 }

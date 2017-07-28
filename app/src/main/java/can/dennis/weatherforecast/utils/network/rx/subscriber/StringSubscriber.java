@@ -20,7 +20,7 @@ public abstract class StringSubscriber<T> extends BaseSubscriber<T> {
 			onStringResponse(e, responseCode, response, string);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			e.onError(new TextException("获取Response String错误"));
+			e.onError(new TextException("Error on get response body string"));
 		}
 	}
 

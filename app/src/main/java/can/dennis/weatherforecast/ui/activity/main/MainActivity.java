@@ -46,7 +46,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.functions.Consumer;
 
 /**
  * Main Activity
@@ -106,10 +106,13 @@ public class MainActivity extends BaseActivity {
 	}
 
 	@Override public void onBackPressed() {
-		if (swipeRefreshLayout.isRefreshing())
-			swipeRefreshLayout.setRefreshing(false);
-		else
-			super.onBackPressed();
+		if (setRefreshing(false)) {
+			if (binder != null)
+				binder.cancelNetwork();
+			return;
+		}
+
+		super.onBackPressed();
 	}
 
 	private void init_chart() {
@@ -166,45 +169,41 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void loadBingPicture() {
-		networkHelper.loadNetwork(loadLocalBingPic()
+		loadLocalBingPic()
 				.flatMap(NetworkUtils.getInstance().getBingPicUrl())
-				.flatMap(NetworkUtils.getInstance().loadBingPic(activity)), new DisposableObserver<Bitmap>() {
-			@Override public void onNext(@NonNull Bitmap bitmap) {
-				A.log("BingPic: onNext: bitmap");
-				backgroundIV.setImageBitmap(bitmap);
-				if (FileUtils.getInstance().saveBitmapAsFile(bitmap, FileUtils.getInstance().getBingImageFile()))
-					PreferenceUtils.getInstance().markBingImageRefreshTime();
-			}
-
-			@Override public void onError(@NonNull Throwable e) {
-				A.log("BingPic: onError: " + e.getMessage());
-			}
-
-			@Override public void onComplete() { A.log("BingPic: onComplete"); }
-		});
+				.flatMap(NetworkUtils.getInstance().loadBingPic(activity))
+				.subscribe(new Consumer<Bitmap>() {
+					@Override public void accept(Bitmap bitmap) throws Exception {
+						A.log("BingPic: refresh bitmap");
+						backgroundIV.setImageBitmap(bitmap);
+						if (FileUtils
+								.getInstance()
+								.saveBitmapAsFile(bitmap, FileUtils.getInstance().getBingImageFile()))
+							PreferenceUtils.getInstance().markBingImageRefreshTime();
+					}
+				}, new Consumer<Throwable>() {
+					@Override public void accept(Throwable throwable) throws Exception {
+						A.log("BingPic: onError: " + throwable.getMessage());
+					}
+				});
 	}
 
 	private Observable<Boolean> loadLocalBingPic() {
 		return Observable.create(new ObservableOnSubscribe<Boolean>() {
 			@Override public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
-				A.log("<-------- Load local bing pic -------->");
 				Drawable drawable =
 						Drawable.createFromPath(FileUtils.getInstance().getBingImageFile().getAbsolutePath());
-				if (drawable != null) {
-					A.log("BingPic: 加载本地缓存");
+				if (drawable != null)
 					backgroundIV.setImageDrawable(drawable);
-				} else {
-					A.log("BingPic: 本地缓存为空");
-				}
-				if (needToRefreshBingImage()) {
-					A.log("BingPic: 刷新网络");
+
+				if (needToRefreshBingImage())
 					e.onNext(true);
-				}
+
 				e.onComplete();
 			}
 
 			private boolean needToRefreshBingImage() {
-				return (A.DEBUG || NetworkStatusUtils.getInstance().isWifiApn()) && notDownloadedToday();
+				return NetworkStatusUtils.getInstance().isWifiApn() && notDownloadedToday();
 			}
 
 			private boolean notDownloadedToday() {
@@ -220,14 +219,14 @@ public class MainActivity extends BaseActivity {
 	private SwipeRefreshLayout.OnRefreshListener swipeRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
 		@Override public void onRefresh() {
 			if (binder != null)
-				binder.refresh(true);
+				binder.refresh();
 		}
 	};
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
 		@Override public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 			MainActivity.this.binder = (MainService.IServiceBinder) iBinder;
-			binder.refresh(false);
+			binder.init();
 		}
 
 		@Override public void onServiceDisconnected(ComponentName componentName) {
@@ -309,5 +308,11 @@ public class MainActivity extends BaseActivity {
 		chart.invalidate();
 	}
 
-	public void setRefreshing(boolean refreshing) { swipeRefreshLayout.setRefreshing(refreshing); }
+	public boolean setRefreshing(boolean toRefresh) {
+		if (swipeRefreshLayout.isRefreshing() != toRefresh) {
+			swipeRefreshLayout.setRefreshing(toRefresh);
+			return true;
+		} else
+			return false;
+	}
 }
