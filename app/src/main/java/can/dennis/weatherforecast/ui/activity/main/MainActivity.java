@@ -45,8 +45,10 @@ import can.dennis.weatherforecast.utils.responseparse.ResponseParseUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Main Activity
@@ -172,6 +174,8 @@ public class MainActivity extends BaseActivity {
 		loadLocalBingPic()
 				.flatMap(NetworkUtils.getInstance().getBingPicUrl())
 				.flatMap(NetworkUtils.getInstance().loadBingPic(activity))
+				.subscribeOn(Schedulers.newThread())
+				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Consumer<Bitmap>() {
 					@Override public void accept(Bitmap bitmap) throws Exception {
 						A.log("BingPic: refresh bitmap");
@@ -203,7 +207,9 @@ public class MainActivity extends BaseActivity {
 			}
 
 			private boolean needToRefreshBingImage() {
-				return NetworkStatusUtils.getInstance().isWifiApn() && notDownloadedToday();
+				return //
+//						A.DEBUG || //
+						NetworkStatusUtils.getInstance().isWifiApn() && notDownloadedToday();
 			}
 
 			private boolean notDownloadedToday() {
