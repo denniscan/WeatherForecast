@@ -118,18 +118,18 @@ public class MainService extends BaseService {
 
 	private class ServiceBinder extends Binder implements IServiceBinder {
 		@Override public void init() {
-			A.log("Call from Activity: init()");
+			A.log("Called from Activity: init()");
 			loadLocalData();
 			if (!withinAutoRefreshInterval())
 				loadNetwork();
 		}
 
 		@Override public void refresh() {
-			A.log("Call from Activity: refresh()");
+			A.log("Called from Activity: refresh()");
 			loadNetwork(); }
 
 		@Override public void cancelNetwork() {
-			A.log("Call from Activity: cancelNetwork");
+			A.log("Called from Activity: cancelNetwork");
 			networkHelper.clear(); }
 	}
 

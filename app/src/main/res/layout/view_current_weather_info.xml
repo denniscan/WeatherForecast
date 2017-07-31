@@ -3,11 +3,10 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:paddingBottom="10dp"
 	android:layout_height="wrap_content"
-	tools:layout_editor_absoluteX="0dp"
-
-	tools:layout_editor_absoluteY="0dp">
+	android:paddingBottom="10dp"
+	android:fitsSystemWindows="true"
+>
 
 	<android.support.constraint.Guideline
 		android:id="@+id/vline1"
@@ -136,11 +135,11 @@
 		style="@style/TableTextView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_marginBottom="-1dp"
 		android:layout_marginLeft="8dp"
 		app:layout_constraintBottom_toTopOf="@+id/hl2"
 		app:layout_constraintLeft_toLeftOf="@+id/vline1"
-		tools:text="34"
-		android:layout_marginBottom="-1dp" />
+		tools:text="34" />
 
 	<TextView
 		style="@style/TableTextView"

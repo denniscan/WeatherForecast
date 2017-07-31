@@ -13,7 +13,7 @@ import can.dennis.weatherforecast.BuildConfig;
  */
 public class A {
 	private static final VersionTag DEFAULT_VERSION_TAG = VersionTag.Debug;
-	public final static VersionTag VERSION_TAG = VersionTag.parse(BuildConfig.VERSION_TAG);
+	public static final VersionTag VERSION_TAG = VersionTag.parse(BuildConfig.VERSION_TAG);
 	public static final boolean DEBUG = VERSION_TAG != VersionTag.Release;
 
 	private static final String TAG = "Dennis";
